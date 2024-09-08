@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload - 资源分享</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: #f2f2f7;
+            margin: 0;
+            padding: 20px;
+            color: #1c1c1e;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        label {
+            font-size: 18px;
+            font-weight: 600;
+            margin-right: 10px;
+            color: #007aff;
+        }
+
+        select {
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            background-color: #fff;
+            color: #1c1c1e;
+            width: 100%;
+            max-width: 322px;
+        }
+
+        .sub-menu {
+            display: none;
+            margin-top: 10px;
+            width: 322px;
+        }
+
+        .sub-menu select {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            background-color: #fff;
+            color: #1c1c1e;
+        }
+
+        .sub-menu select option {
+            padding: 5px;
+        }
+
+        input[type="text"] {
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            background-color: #fff;
+            color: #1c1c1e;
+            width: 100%;
+            max-width: 300px;
+        }
+
+        button {
+            width: 322px;
+            padding: 10px 10px;
+            font-size: 16px;
+            border: none;
+            border-radius: 8px;
+            background-color: #007aff;
+            color: #fff;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #005bb5;
+        }
+    </style>
+</head>
+
+<body>
+
+    <select id="themeselect" name="themeselect" onchange="showSubMenu()">
+        <option value="" disabled selected>选择一个分区</option>
+        <option value="filmresources">影视作品 Film</option>
+        <option value="softwareresources">软件 Software</option>
+        <option value="musicresources">音乐 Music</option>
+        <option value="pictureresources">图片 Pictures</option>
+        <option value="bookresources">书籍 Books</option>
+        <option value="aisources">Ai Ai-Hub</option>
+        <option value="opsysresources">操作系统 Operate System</option>
+        <option value="othersources">其他 Other</option>
+        <!-- 其他选项可以继续添加 -->
+    </select>
+
+    <div id="filmSubMenu" class="sub-menu">
+        <select id="filmOptions">
+            <option value="movieoptions">电影</option>
+            <option value="animeoptions">动漫</option>
+            <option value="TVshowsoptions">电视剧</option>
+        </select>
+    </div>
+
+    <div id="SoftwareSubMenu" class="sub-menu">
+        <select id="SoftwareOptions">
+            <option value="officeoptions">效率</option>
+            <option value="designoptions">设计</option>
+            <option value="developoptions">开发</option>
+            <option value="educationoptions">教育</option>
+            <option value="entertainmentoptions">娱乐</option>
+            <option value="musicsoftwareoptions">音乐</option>
+            <option value="Personalizationoptions">个性化</option>
+            <option value="networkoptions">网络</option>
+            <option value="securityoptions">安全</option>
+            <option value="gameoptions">游戏</option>
+            <option value="othersoftwareoptions">其他</option>
+        </select>
+    </div>
+
+    <div id="AiSubMenu" class="sub-menu">
+        <select id="aiOptions">
+            <option value="LLMoptions">语言模型</option>
+            <option value="TTPoptions">文生图模型</option>
+            <option value="TTSoptions">文字转语音</option>
+            <option value="TTVoptions">文字转视频</option>
+            <option value="Otheraioptions">其他</option>
+        </select>
+    </div>
+
+    <div id="BookSubMenu" class="sub-menu">
+        <select id="BookOptions">
+            <option value="NovelsOptions">小说</option>
+            <option value="ComicsOptions">漫画</option>
+            <option value="AcademicOptions">学术文献</option>
+            <option value="OthersubOptions">其他</option>
+        </select>
+    </div>
+
+    <div id="MusicSubMenu" class="sub-menu">
+        <select id="MusicOptions">
+            <option value="ClassicalOptions">古典音乐</option>
+            <option value="PopmusicOptions">流行音乐</option>
+            <option value="PureOptions">纯音乐</option>
+        </select>
+    </div>
+
+    <div id="PictureSubMenu" class="sub-menu">
+        <select id="PictureOptions">
+            <option value="ArtOptions">抽象</option>
+            <option value="AnimeOptions">动漫</option>
+            <option value="CarsOptions">汽车</option>
+            <option value="FantasyOptions">奇幻</option>
+            <option value="FilmPicturesOptions">电影</option>
+            <option value="GamePicturesOptions">游戏</option>
+            <option value="PhotographyOptions">摄影</option>
+            <option value="PixelOptions">像素</option>
+            <option value="ScienceFictionOptions">科幻</option>
+            <option value="SportsPicturesOptions">体育</option>
+            <option value="WallpapersOptions">壁纸</option>
+        </select>
+    </div>
+
+    <div id="OtherSubMenu" class="sub-menu">
+        <select id="OtherOptions">
+            <option value="OthersubOptions">其他</option>
+        </select>
+    </div>
+
+    <div id="opsysSubMenu" class="sub-menu">
+        <select id="opsysOptions">
+            <option value="macos">MacOS</option>
+            <option value="windows">Windows</option>
+            <option value="ubuntu">Ubuntu</option>
+            <option value="debian">Debian</option>
+            <option value="linux">Linux</option>
+            <option value="mobile">Mobile</option>
+        </select>
+    </div>
+
+    <!-- 其他分区的二级菜单可类似添加 -->
+
+    <script>
+        function showSubMenu() {
+            // 隐藏所有二级菜单
+            document.querySelectorAll('.sub-menu').forEach(menu => {
+                menu.style.display = 'none';
+            });
+
+            // 获取当前选择的分区值
+            const selectedValue = document.getElementById('themeselect').value;
+
+            // 根据选择的分区值显示相应的二级菜单
+            if (selectedValue === 'filmresources') {
+                document.getElementById('filmSubMenu').style.display = 'block';
+            } else if (selectedValue === 'opsysresources') {
+                document.getElementById('opsysSubMenu').style.display = 'block';
+            }
+            else if (selectedValue === 'softwareresources') {
+                document.getElementById('SoftwareSubMenu').style.display = 'block';
+            }
+            else if (selectedValue === 'aisources') {
+                document.getElementById('AiSubMenu').style.display = 'block';
+            }
+            else if (selectedValue === 'bookresources') {
+                document.getElementById('BookSubMenu').style.display = 'block';
+            }
+            else if (selectedValue === 'musicresources') {
+                document.getElementById('MusicSubMenu').style.display = 'block';
+            }
+            else if (selectedValue === 'pictureresources') {
+                document.getElementById('PictureSubMenu').style.display = 'block';
+            }
+            else if (selectedValue === 'othersources') {
+                document.getElementById('OtherSubMenu').style.display = 'block';
+            }
+
+            // 根据需要继续添加其他分区的二级菜单显示逻辑
+        }
+    </script>
+
+    <br>
+
+    <input type="text" id="titleinput" placeholder="资源标题">
+
+    <br>
+
+    <input type="text" id="Linkinput" placeholder="资源链接">
+
+    <br>
+
+    <input type="text" id="introinput" placeholder="资源简介">
+
+    <br>
+
+    <input type="text" id="keywordsinput" placeholder="资源关键词">
+
+    <br>
+
+    <button id="updateButton" onclick="updateGitHubFile()">提交到 Github</button>
+
+    <script>
+        function customBase64Encode(str) {
+            // 将字符串转换为 UTF-8 编码的 Uint8Array
+            const utf8Bytes = new TextEncoder().encode(str);
+
+            // 使用 Base64 编码 Uint8Array
+            const base64String = btoa(String.fromCharCode.apply(null, utf8Bytes));
+
+            return base64String;
+        }
+
+        function customBase64Decode(base64Str) {
+            // 使用 atob 解码 Base64 字符串
+            const decodedStr = atob(base64Str);
+
+            // 将解码后的字符串转换为 UTF-8 编码的 Uint8Array
+            const utf8Bytes = new Uint8Array(decodedStr.length);
+            for (let i = 0; i < decodedStr.length; i++) {
+                utf8Bytes[i] = decodedStr.charCodeAt(i);
+            }
+
+            // 将 Uint8Array 转换为字符串
+            const str = new TextDecoder().decode(utf8Bytes);
+
+            return str;
+        }
+
+        var nowcontent = "";
+        // 获取按钮元素
+        const button = document.getElementById('fetchButton');
+
+        // 添加点击事件监听器
+        button.addEventListener('click', function () {
+            // GitHub API URL
+            const url = 'https://api.github.com/repos/chocolateater/Resource-Library/contents/docs/index.md';
+
+            // 使用 fetch API 获取文件内容
+            fetch(url)
+                .then(response => response.json()) // 将响应转换为JSON格式
+                .then(data => {
+                    // 解码文件内容
+                    const content = atob(data.content);
+                    nowcontent = content;
+                    // 打印文件内容到控制台
+                    console.log(content);
+                })
+                .catch(error => console.error('Error fetching file:', error));
+        });
+
+        //document.getElementById('updateButton').addEventListener('click', function () {
+        //    alert("!");
+        //    updateGitHubFile();
+        //});
+
+        async function updateGitHubFile() {
+            const token = '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'; // 替换为你的GitHub Personal Access Token
+            const repoOwner = 'Chocolateater';
+            const repoName = 'Resource-Library';
+            var filePath = 'docs/Music/other.md';
+            var newContent = 'Hi';
+
+            var inputtitledom = document.getElementById("titleinput");
+            var inputLinkdom = document.getElementById("Linkinput");
+            var inputintrodom = document.getElementById("introinput");
+            var inputkeywordsdom = document.getElementById("keywordsinput");
+
+            var firstpath = "";
+            var secondpath = "";
+            var firstselect = document.getElementById("themeselect").value;
+
+            if (firstselect == "filmresources") {
+                firstpath = "Film/";
+                var secondselect = document.getElementById("filmOptions").value;
+                if (secondselect == "movieoptions") {
+                    secondpath = "movies.md";
+                }
+                else if (secondselect == "animeoptions") {
+                    secondpath = "anime.md";
+                }
+                else if (secondselect == "TVshowsoptions") {
+                    secondpath = "tvshows.md";
+                }
+            }
+            else if (firstselect == "softwareresources") {
+                firstpath = "Software/";
+                var secondselect = document.getElementById("SoftwareOptions").value;
+                if (secondselect == "officeoptions") {
+                    secondpath = "office.md";
+                }
+                else if (secondselect == "designoptions") {
+                    secondpath = "design.md";
+                }
+                else if (secondselect == "developoptions") {
+                    secondpath = "development.md";
+                }
+                else if (secondselect == "educationoptions") {
+                    secondpath = "education.md";
+                }
+                else if (secondselect == "entertainmentoptions") {
+                    secondpath = "entertainment.md";
+                }
+                else if (secondselect == "musicsoftwareoptions") {
+                    secondpath = "music.md";
+                }
+                else if (secondselect == "Personalizationoptions") {
+                    secondpath = "personalization.md";
+                }
+                else if (secondselect == "networkoptions") {
+                    secondpath = "network.md";
+                }
+                else if (secondselect == "securityoptions") {
+                    secondpath = "security.md";
+                }
+                else if (secondselect == "gameoptions") {
+                    secondpath = "game.md";
+                }
+                else if (secondselect == "othersoftwareoptions") {
+                    secondpath = "others.md";
+                }
+            }
+            else if (firstselect == "aisources") {
+                firstpath = "Ai/";
+                var secondselect = document.getElementById("aiOptions").value;
+                if (secondselect == "LLMoptions") {
+                    secondpath = "languagemodel.md";
+                }
+                else if (secondselect == "TTPoptions") {
+                    secondpath = "texttopicture.md";
+                }
+                else if (secondselect == "TTSoptions") {
+                    secondpath = "texttospeech.md";
+                }
+                else if (secondselect == "TTVoptions") {
+                    secondpath = "texttovideo.md";
+                }
+                else if (secondselect == "Otheraioptions") {
+                    secondpath = "others.md";
+                }
+            }
+            else if (firstselect == "bookresources") {
+                firstpath = "Book/";
+                var secondselect = document.getElementById("BookOptions").value;
+                if (secondselect == "NovelsOptions") {
+                    secondpath = "novels.md";
+                }
+                else if (secondselect == "ComicsOptions") {
+                    secondpath = "comics.md";
+                }
+                else if (secondselect == "AcademicOptions") {
+                    secondpath = "academic.md";
+                }
+                else if (secondselect == "OthersubOptions") {
+                    secondpath = "others.md";
+                }
+            }
+            else if (firstselect == "musicresources") {
+                firstpath = "Music/";
+                var secondselect = document.getElementById("MusicOptions").value;
+                if (secondselect == "ClassicalOptions") {
+                    secondpath = "classical.md";
+                }
+                else if (secondselect == "PopmusicOptions") {
+                    secondpath = "pop.md";
+                }
+                else if (secondselect == "PureOptions") {
+                    secondpath = "pure.md";
+                }
+            }
+            else if (firstselect == "pictureresources") {
+                firstpath = "Picture/";
+                var secondselect = document.getElementById("PictureOptions").value;
+                if (secondselect == "ArtOptions") {
+                    secondpath = "art.md";
+                }
+                else if (secondselect == "AnimeOptions") {
+                    secondpath = "anime.md";
+                }
+                else if (secondselect == "CarsOptions") {
+                    secondpath = "cars.md";
+                }
+                else if (secondselect == "FantasyOptions") {
+                    secondpath = "fantasy.md";
+                }
+                else if (secondselect == "FilmPicturesOptions") {
+                    secondpath = "film.md";
+                }
+                else if (secondselect == "GamePicturesOptions") {
+                    secondpath = "game.md";
+                }
+                else if (secondselect == "PhotographyOptions") {
+                    secondpath = "photography.md";
+                }
+                else if (secondselect == "PixelOptions") {
+                    secondpath = "pixel.md";
+                }
+                else if (secondselect == "ScienceFictionOptions") {
+                    secondpath = "sciencefiction.md";
+                }
+                else if (secondselect == "SportsPicturesOptions") {
+                    secondpath = "sports.md";
+                }
+                else if (secondselect == "WallpapersOptions") {
+                    secondpath = "wallpapers.md";
+                }
+            }
+            else if (firstselect == "othersources") {
+                firstpath = "Other/";
+                var secondselect = document.getElementById("OtherOptions").value;
+                if (secondselect == "OthersubOptions") {
+                    secondpath = "others.md";
+                }
+            }
+            else if (firstselect == "opsysresources") {
+                firstpath = "Operate-System/";
+                var secondselect = document.getElementById("opsysOptions").value;
+                if (secondselect == "macos") {
+                    secondpath = "macos.md";
+                }
+                else if (secondselect == "windows") {
+                    secondpath = "windows.md";
+                }
+                else if (secondselect == "ubuntu") {
+                    secondpath = "ubuntu.md";
+                }
+                else if (secondselect == "debian") {
+                    secondpath = "debian.md";
+                }
+                else if (secondselect == "linux") {
+                    secondpath = "linux.md";
+                }
+                else if (secondselect == "mobile") {
+                    secondpath = "mobile.md";
+                }
+            }
+
+            filePath = 'docs/' + firstpath + secondpath;
+
+            console.log(filePath);
+
+            newContent = "<h3>" + "<a href=\"" + inputLinkdom.value + "\">" + inputtitledom.value + "</a> </h3>" + "\n" + "\n" + inputintrodom.value + "\n" + "\n" + "关键词：" + inputkeywordsdom.value + "\n" + " " + "\n";
+
+            const url = `https://api.github.com/repos/${repoOwner}/${repoName}/contents/${filePath}`;
+
+            console.log(url);
+
+            // 获取当前文件的内容和SHA值
+            const response = await fetch(url, {
+                headers: {
+                    'Authorization': `token ${token}`,
+                    'Accept': 'application/vnd.github.v3+json'
+                }
+            });
+
+            if (!response.ok) {
+                console.error('Failed to fetch current file:', response.statusText);
+                return;
+            }
+
+            const fileData = await response.json();
+            const currentContent = customBase64Decode(fileData.content); // 解码Base64内容
+            const currentSha = fileData.sha;
+            console.log(newContent);
+            // 更新文件内容
+            const updatedContent = customBase64Encode(currentContent + newContent); // 将新内容编码为Base64
+
+            console.log(customBase64Encode(currentContent));
+
+            const updateResponse = await fetch(url, {
+                method: 'PUT',
+                headers: {
+                    'Authorization': `token ${token}`,
+                    'Accept': 'application/vnd.github.v3+json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    message: 'Update index.md via GitHub API',
+                    content: updatedContent,
+                    sha: currentSha
+                })
+            });
+
+            if (updateResponse.ok) {
+                console.log('File updated successfully!');
+            } else {
+                console.error('Failed to update file:', updateResponse.statusText);
+            }
+        }
+    </script>
+
+</body>
+
+</html>
