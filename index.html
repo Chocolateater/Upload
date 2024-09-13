@@ -5,6 +5,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Upload - 资源分享</title>
+    <link href="https://cdn.bootcdn.net/ajax/libs/bootstrap-sweetalert/1.0.1/sweetalert.css" rel="stylesheet">
+    <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.5.1/jquery.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/bootstrap-sweetalert/1.0.1/sweetalert.js"></script>
     <style>
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
@@ -293,7 +296,8 @@
                     // 打印文件内容到控制台
                     console.log(content);
                 })
-                .catch(error => console.error('Error fetching file:', error));
+                .catch(error => swal("提交失败 QAQ", "可能是由于提交内容非法或国际网络造成的，请检查控制台", "error"))
+                //.catch(error => console.error('Error fetching file:', error));
         });
 
         //document.getElementById('updateButton').addEventListener('click', function () {
@@ -302,7 +306,7 @@
         //});
 
         async function updateGitHubFile() {
-            const token = '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'; // 替换为你的GitHub Personal Access Token
+            const token = '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'; // 替换为你的GitHub Personal Access Token
             const repoOwner = 'Chocolateater';
             const repoName = 'Resource-Library';
             var filePath = 'docs/Music/other.md';
@@ -371,16 +375,16 @@
                 firstpath = "Ai/";
                 var secondselect = document.getElementById("aiOptions").value;
                 if (secondselect == "LLMoptions") {
-                    secondpath = "languagemodel.md";
+                    secondpath = "llm.md";
                 }
                 else if (secondselect == "TTPoptions") {
-                    secondpath = "texttopicture.md";
+                    secondpath = "gan.md";
                 }
                 else if (secondselect == "TTSoptions") {
-                    secondpath = "texttospeech.md";
+                    secondpath = "tts.md";
                 }
                 else if (secondselect == "TTVoptions") {
-                    secondpath = "texttovideo.md";
+                    secondpath = "t2v.md";
                 }
                 else if (secondselect == "Otheraioptions") {
                     secondpath = "others.md";
@@ -501,6 +505,7 @@
             });
 
             if (!response.ok) {
+                swal("提交失败 QAQ", "无法找到对应文件", "error");
                 console.error('Failed to fetch current file:', response.statusText);
                 return;
             }
@@ -529,8 +534,10 @@
             });
 
             if (updateResponse.ok) {
+                swal("提交成功!", "感谢你对本项目的贡献!", "success");
                 console.log('File updated successfully!');
             } else {
+                swal("提交失败 QAQ", "可能是由于提交内容非法或国际网络造成的，请检查控制台", "error");
                 console.error('Failed to update file:', updateResponse.statusText);
             }
         }
