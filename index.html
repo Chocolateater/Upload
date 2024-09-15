@@ -4,8 +4,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Upload - 资源分享</title>
+    <title>Upload - 资源分享</title> 
     <link href="https://cdn.bootcdn.net/ajax/libs/bootstrap-sweetalert/1.0.1/sweetalert.css" rel="stylesheet">
+    <link href="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/4.5.3/css/bootstrap.css" rel="stylesheet">
     <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.5.1/jquery.js"></script>
     <script src="https://cdn.bootcdn.net/ajax/libs/bootstrap-sweetalert/1.0.1/sweetalert.js"></script>
     <style>
@@ -73,7 +74,7 @@
             max-width: 300px;
         }
 
-        button {
+        #My114514updateButton {
             width: 322px;
             padding: 10px 10px;
             font-size: 16px;
@@ -84,7 +85,7 @@
             cursor: pointer;
         }
 
-        button:hover {
+        #My114514updateButton:hover {
             background-color: #005bb5;
         }
     </style>
@@ -248,7 +249,7 @@
 
     <br>
 
-    <button id="updateButton" onclick="updateGitHubFile()">提交到 Github</button>
+    <button id="My114514updateButton" onclick="updateGitHubFile()">提交到 Github</button>
 
     <script>
         function customBase64Encode(str) {
@@ -505,7 +506,7 @@
             });
 
             if (!response.ok) {
-                swal("提交失败 QAQ", "无法找到对应文件", "error");
+                swal("提交失败 QAQ", "可能是国际网络波动造成的", "error");
                 console.error('Failed to fetch current file:', response.statusText);
                 return;
             }
