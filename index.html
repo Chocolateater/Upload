@@ -4,254 +4,613 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Upload - 资源分享</title> 
-    <link href="https://cdn.bootcdn.net/ajax/libs/bootstrap-sweetalert/1.0.1/sweetalert.css" rel="stylesheet">
-    <link href="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/4.5.3/css/bootstrap.css" rel="stylesheet">
-    <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.5.1/jquery.js"></script>
-    <script src="https://cdn.bootcdn.net/ajax/libs/bootstrap-sweetalert/1.0.1/sweetalert.js"></script>
+    <title>分类菜单</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <style>
+        :root {
+            --primary-color: #1a73e8;
+            --background-color: #f8f9fa;
+            --text-color: #202124;
+            --border-color: #dadce0;
+        }
+
         body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            background-color: #f2f2f7;
-            margin: 0;
-            padding: 20px;
-            color: #1c1c1e;
             display: flex;
+            min-height: 100vh;
             flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
+            background-color: var(--background-color);
+            font-family: 'Roboto', sans-serif;
+            color: var(--text-color);
         }
 
-        label {
-            font-size: 18px;
-            font-weight: 600;
-            margin-right: 10px;
-            color: #007aff;
+        main {
+            flex: 1 0 auto;
+            padding: 24px 0;
         }
 
-        select {
-            padding: 10px;
-            font-size: 16px;
-            border: 1px solid #ccc;
+        nav,
+        footer.page-footer {
+            background-color: var(--primary-color);
+        }
+
+        nav .brand-logo {
+            font-weight: 500;
+        }
+
+        .card {
             border-radius: 8px;
-            margin-bottom: 20px;
-            background-color: #fff;
-            color: #1c1c1e;
-            width: 100%;
-            max-width: 322px;
+            box-shadow: 0 1px 2px 0 rgba(60, 64, 67, 0.3), 0 1px 3px 1px rgba(60, 64, 67, 0.15);
+            margin-top: 16px;
+            margin-bottom: 16px;
+            overflow: hidden;
+        }
+
+        .card-title {
+            font-size: 20px;
+            font-weight: 500;
+            color: var(--primary-color);
+        }
+
+        .category-title {
+            cursor: pointer;
+            padding: 16px;
+            background-color: white;
+            color: var(--text-color);
+            margin-bottom: 0;
+            transition: background-color 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .category-title:hover {
+            background-color: #e8f0fe;
+        }
+
+        .category-title i {
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .category-title.active i {
+            transform: rotate(180deg);
         }
 
         .sub-menu {
             display: none;
-            margin-top: 10px;
-            width: 322px;
-        }
-
-        .sub-menu select {
-            width: 100%;
-            padding: 10px;
-            font-size: 16px;
-            border: 1px solid #ccc;
-            border-radius: 8px;
+            padding: 16px;
             background-color: #fff;
-            color: #1c1c1e;
         }
 
-        .sub-menu select option {
-            padding: 5px;
-        }
-
-        input[type="text"] {
-            padding: 10px;
-            font-size: 16px;
-            border: 1px solid #ccc;
-            border-radius: 8px;
-            margin-bottom: 20px;
-            background-color: #fff;
-            color: #1c1c1e;
-            width: 100%;
-            max-width: 300px;
-        }
-
-        #My114514updateButton {
-            width: 322px;
-            padding: 10px 10px;
-            font-size: 16px;
-            border: none;
-            border-radius: 8px;
-            background-color: #007aff;
-            color: #fff;
+        .sub-menu span {
+            display: inline-block;
+            margin: 4px;
+            padding: 8px 16px;
             cursor: pointer;
+            border-radius: 16px;
+            transition: all 0.3s;
+            font-size: 14px;
         }
 
-        #My114514updateButton:hover {
-            background-color: #005bb5;
+        .sub-menu span:hover {
+            background-color: #e8f0fe;
+            color: var(--primary-color);
+        }
+
+        .btn-google {
+            background-color: var(--primary-color);
+            color: white;
+            border-radius: 4px;
+            text-transform: none;
+            font-weight: 500;
+            box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.25);
+            height: 40px;
+            line-height: 40px;
+            padding: 0 24px;
+            margin-top: 20px;
+        }
+
+        .btn-google:hover {
+            background-color: #2b7de9;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .animated {
+            animation: fadeIn 0.3s ease-in-out;
+        }
+
+
+        .win11-input-container {
+            position: relative;
+            width: 100%;
+            margin: 20px 0;
+        }
+
+        .win11-input {
+            width: 100%;
+            padding: 10px 16px;
+            font-size: 16px;
+            border: 1px solid #d1d1d1;
+            border-radius: 8px;
+            background-color: #ffffff;
+            transition: all 0.3s ease;
+            outline: none;
+        }
+
+        .win11-input:focus {
+            border-color: #0067c0;
+            box-shadow: 0 0 0 2px rgba(0, 103, 192, 0.25);
+        }
+
+        .win11-input-label {
+            position: absolute;
+            left: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 16px;
+            color: #666666;
+            transition: all 0.3s ease;
+            pointer-events: none;
+            background-color: #ffffff;
+            padding: 0 4px;
+        }
+
+        .win11-input:focus+.win11-input-label,
+        .win11-input:not(:placeholder-shown)+.win11-input-label {
+            top: 0;
+            font-size: 12px;
+            color: #0067c0;
         }
     </style>
 </head>
 
 <body>
+    <nav>
+        <div class="nav-wrapper container">
+            <a href="#" class="brand-logo">分类菜单</a>
+        </div>
+    </nav>
 
-    <select id="themeselect" name="themeselect" onchange="showSubMenu()">
-        <option value="" disabled selected>选择一个分区</option>
-        <option value="filmresources">影视作品 Film</option>
-        <option value="softwareresources">软件 Software</option>
-        <option value="musicresources">音乐 Music</option>
-        <option value="pictureresources">图片 Pictures</option>
-        <option value="bookresources">书籍 Books</option>
-        <option value="aisources">Ai Ai-Hub</option>
-        <option value="opsysresources">操作系统 Operate System</option>
-        <option value="othersources">其他 Other</option>
-        <!-- 其他选项可以继续添加 -->
-    </select>
-
-    <div id="filmSubMenu" class="sub-menu">
-        <select id="filmOptions">
-            <option value="movieoptions">电影</option>
-            <option value="animeoptions">动漫</option>
-            <option value="TVshowsoptions">电视剧</option>
-        </select>
-    </div>
-
-    <div id="SoftwareSubMenu" class="sub-menu">
-        <select id="SoftwareOptions">
-            <option value="officeoptions">效率</option>
-            <option value="designoptions">设计</option>
-            <option value="developoptions">开发</option>
-            <option value="educationoptions">教育</option>
-            <option value="entertainmentoptions">娱乐</option>
-            <option value="musicsoftwareoptions">音乐</option>
-            <option value="Personalizationoptions">个性化</option>
-            <option value="networkoptions">网络</option>
-            <option value="securityoptions">安全</option>
-            <option value="gameoptions">游戏</option>
-            <option value="othersoftwareoptions">其他</option>
-        </select>
-    </div>
-
-    <div id="AiSubMenu" class="sub-menu">
-        <select id="aiOptions">
-            <option value="LLMoptions">语言模型</option>
-            <option value="TTPoptions">文生图模型</option>
-            <option value="TTSoptions">文字转语音</option>
-            <option value="TTVoptions">文字转视频</option>
-            <option value="Otheraioptions">其他</option>
-        </select>
-    </div>
-
-    <div id="BookSubMenu" class="sub-menu">
-        <select id="BookOptions">
-            <option value="NovelsOptions">小说</option>
-            <option value="ComicsOptions">漫画</option>
-            <option value="AcademicOptions">学术文献</option>
-            <option value="OthersubOptions">其他</option>
-        </select>
-    </div>
-
-    <div id="MusicSubMenu" class="sub-menu">
-        <select id="MusicOptions">
-            <option value="ClassicalOptions">古典音乐</option>
-            <option value="PopmusicOptions">流行音乐</option>
-            <option value="PureOptions">纯音乐</option>
-        </select>
-    </div>
-
-    <div id="PictureSubMenu" class="sub-menu">
-        <select id="PictureOptions">
-            <option value="ArtOptions">抽象</option>
-            <option value="AnimeOptions">动漫</option>
-            <option value="CarsOptions">汽车</option>
-            <option value="FantasyOptions">奇幻</option>
-            <option value="FilmPicturesOptions">电影</option>
-            <option value="GamePicturesOptions">游戏</option>
-            <option value="PhotographyOptions">摄影</option>
-            <option value="PixelOptions">像素</option>
-            <option value="ScienceFictionOptions">科幻</option>
-            <option value="SportsPicturesOptions">体育</option>
-            <option value="WallpapersOptions">壁纸</option>
-        </select>
-    </div>
-
-    <div id="OtherSubMenu" class="sub-menu">
-        <select id="OtherOptions">
-            <option value="OthersubOptions">其他</option>
-        </select>
-    </div>
-
-    <div id="opsysSubMenu" class="sub-menu">
-        <select id="opsysOptions">
-            <option value="macos">MacOS</option>
-            <option value="windows">Windows</option>
-            <option value="ubuntu">Ubuntu</option>
-            <option value="debian">Debian</option>
-            <option value="linux">Linux</option>
-            <option value="mobile">Mobile</option>
-        </select>
-    </div>
-
-    <!-- 其他分区的二级菜单可类似添加 -->
-
-    <script>
-        function showSubMenu() {
-            // 隐藏所有二级菜单
-            document.querySelectorAll('.sub-menu').forEach(menu => {
-                menu.style.display = 'none';
-            });
-
-            // 获取当前选择的分区值
-            const selectedValue = document.getElementById('themeselect').value;
-
-            // 根据选择的分区值显示相应的二级菜单
-            if (selectedValue === 'filmresources') {
-                document.getElementById('filmSubMenu').style.display = 'block';
-            } else if (selectedValue === 'opsysresources') {
-                document.getElementById('opsysSubMenu').style.display = 'block';
-            }
-            else if (selectedValue === 'softwareresources') {
-                document.getElementById('SoftwareSubMenu').style.display = 'block';
-            }
-            else if (selectedValue === 'aisources') {
-                document.getElementById('AiSubMenu').style.display = 'block';
-            }
-            else if (selectedValue === 'bookresources') {
-                document.getElementById('BookSubMenu').style.display = 'block';
-            }
-            else if (selectedValue === 'musicresources') {
-                document.getElementById('MusicSubMenu').style.display = 'block';
-            }
-            else if (selectedValue === 'pictureresources') {
-                document.getElementById('PictureSubMenu').style.display = 'block';
-            }
-            else if (selectedValue === 'othersources') {
-                document.getElementById('OtherSubMenu').style.display = 'block';
-            }
-
-            // 根据需要继续添加其他分区的二级菜单显示逻辑
+    <main class="container">
+        <div class="row">
+            <div class="col s12">
+                <div class="card">
+                    <div class="card-content">
+                        <span class="card-title">选择一个分区</span>
+                        <br>
+                        <div style="
+        position: relative;
+        width: 100%;
+        max-width: 600px;
+        margin: 20px auto;
+        font-size: 16px;
+        @media (max-width: 992px) {
+            max-width: 90%;
         }
-    </script>
+        @media (max-width: 768px) {
+            font-size: 15px;
+            max-width: 95%;
+        }
+        @media (max-width: 480px) {
+            font-size: 14px;
+            max-width: 100%;
+        }
+    ">
+                            <input type="text" id="Titleinput" placeholder=" " style="
+            width: 100%;
+            padding: 14px 20px;
+            font-size: 1em;
+            border: 1px solid #d1d1d1;
+            border-radius: 12px;
+            background-color: #ffffff;
+            transition: all 0.3s ease;
+            outline: none;
+            box-sizing: border-box;
+            @media (max-width: 768px) {
+                padding: 12px 18px;
+            }
+            @media (max-width: 480px) {
+                padding: 10px 16px;
+                border-radius: 10px;
+            }
+        " onfocus="this.style.borderColor='#0067c0'; this.style.boxShadow='0 0 0 2px rgba(0, 103, 192, 0.25)'; this.nextElementSibling.style.top='-0.7em'; this.nextElementSibling.style.fontSize='0.75em'; this.nextElementSibling.style.color='#0067c0';"
+                                onblur="if(this.value===''){this.style.borderColor='#d1d1d1'; this.style.boxShadow='none'; this.nextElementSibling.style.top='50%'; this.nextElementSibling.style.fontSize='1em'; this.nextElementSibling.style.color='#666666';}">
+                            <label for="Titleinput" style="
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 1em;
+            color: #666666;
+            transition: all 0.3s ease;
+            pointer-events: none;
+            background-color: #ffffff;
+            padding: 0 4px;
+            @media (max-width: 768px) {
+                left: 18px;
+            }
+            @media (max-width: 480px) {
+                left: 16px;
+            }
+        ">输入分类名称</label>
+                        </div>
+                        <div style="
+        position: relative;
+        width: 100%;
+        max-width: 600px;
+        margin: 20px auto;
+        font-size: 16px;
+        @media (max-width: 992px) {
+            max-width: 90%;
+        }
+        @media (max-width: 768px) {
+            font-size: 15px;
+            max-width: 95%;
+        }
+        @media (max-width: 480px) {
+            font-size: 14px;
+            max-width: 100%;
+        }
+    ">
+                            <input type="text" id="Linkinput" placeholder=" " style="
+            width: 100%;
+            padding: 14px 20px;
+            font-size: 1em;
+            border: 1px solid #d1d1d1;
+            border-radius: 12px;
+            background-color: #ffffff;
+            transition: all 0.3s ease;
+            outline: none;
+            box-sizing: border-box;
+            @media (max-width: 768px) {
+                padding: 12px 18px;
+            }
+            @media (max-width: 480px) {
+                padding: 10px 16px;
+                border-radius: 10px;
+            }
+        " onfocus="this.style.borderColor='#0067c0'; this.style.boxShadow='0 0 0 2px rgba(0, 103, 192, 0.25)'; this.nextElementSibling.style.top='-0.7em'; this.nextElementSibling.style.fontSize='0.75em'; this.nextElementSibling.style.color='#0067c0';"
+                                onblur="if(this.value===''){this.style.borderColor='#d1d1d1'; this.style.boxShadow='none'; this.nextElementSibling.style.top='50%'; this.nextElementSibling.style.fontSize='1em'; this.nextElementSibling.style.color='#666666';}">
+                            <label for="Linkinput" style="
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 1em;
+            color: #666666;
+            transition: all 0.3s ease;
+            pointer-events: none;
+            background-color: #ffffff;
+            padding: 0 4px;
+            @media (max-width: 768px) {
+                left: 18px;
+            }
+            @media (max-width: 480px) {
+                left: 16px;
+            }
+        ">输入分类名称</label>
+                        </div>
+                        <div style="
+        position: relative;
+        width: 100%;
+        max-width: 600px;
+        margin: 20px auto;
+        font-size: 16px;
+        @media (max-width: 992px) {
+            max-width: 90%;
+        }
+        @media (max-width: 768px) {
+            font-size: 15px;
+            max-width: 95%;
+        }
+        @media (max-width: 480px) {
+            font-size: 14px;
+            max-width: 100%;
+        }
+    ">
+                            <input type="text" id="Descriptioninput" placeholder=" " style="
+            width: 100%;
+            padding: 14px 20px;
+            font-size: 1em;
+            border: 1px solid #d1d1d1;
+            border-radius: 12px;
+            background-color: #ffffff;
+            transition: all 0.3s ease;
+            outline: none;
+            box-sizing: border-box;
+            @media (max-width: 768px) {
+                padding: 12px 18px;
+            }
+            @media (max-width: 480px) {
+                padding: 10px 16px;
+                border-radius: 10px;
+            }
+        " onfocus="this.style.borderColor='#0067c0'; this.style.boxShadow='0 0 0 2px rgba(0, 103, 192, 0.25)'; this.nextElementSibling.style.top='-0.7em'; this.nextElementSibling.style.fontSize='0.75em'; this.nextElementSibling.style.color='#0067c0';"
+                                onblur="if(this.value===''){this.style.borderColor='#d1d1d1'; this.style.boxShadow='none'; this.nextElementSibling.style.top='50%'; this.nextElementSibling.style.fontSize='1em'; this.nextElementSibling.style.color='#666666';}">
+                            <label for="Descriptioninput" style="
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 1em;
+            color: #666666;
+            transition: all 0.3s ease;
+            pointer-events: none;
+            background-color: #ffffff;
+            padding: 0 4px;
+            @media (max-width: 768px) {
+                left: 18px;
+            }
+            @media (max-width: 480px) {
+                left: 16px;
+            }
+        ">输入分类名称</label>
+                        </div>
+                        <div style="
+    position: relative;
+    width: 100%;
+    max-width: 600px;
+    margin: 20px auto;
+    font-size: 16px;
+    @media (max-width: 992px) {
+        max-width: 90%;
+    }
+    @media (max-width: 768px) {
+        font-size: 15px;
+        max-width: 95%;
+    }
+    @media (max-width: 480px) {
+        font-size: 14px;
+        max-width: 100%;
+    }
+    ">
+                            <input type="text" id="Keywordinput" placeholder=" " style="
+        width: 100%;
+        padding: 14px 20px;
+        font-size: 1em;
+        border: 1px solid #d1d1d1;
+        border-radius: 12px;
+        background-color: #ffffff;
+        transition: all 0.3s ease;
+        outline: none;
+        box-sizing: border-box;
+        @media (max-width: 768px) {
+            padding: 12px 18px;
+        }
+        @media (max-width: 480px) {
+            padding: 10px 16px;
+            border-radius: 10px;
+        }
+    " onfocus="this.style.borderColor='#0067c0'; this.style.boxShadow='0 0 0 2px rgba(0, 103, 192, 0.25)'; this.nextElementSibling.style.top='-0.7em'; this.nextElementSibling.style.fontSize='0.75em'; this.nextElementSibling.style.color='#0067c0';"
+                                onblur="if(this.value===''){this.style.borderColor='#d1d1d1'; this.style.boxShadow='none'; this.nextElementSibling.style.top='50%'; this.nextElementSibling.style.fontSize='1em'; this.nextElementSibling.style.color='#666666';}">
+                            <label for="Keywordinput" style="
+        position: absolute;
+        left: 20px;
+        top: 50%;
+        transform: translateY(-50%);
+        font-size: 1em;
+        color: #666666;
+        transition: all 0.3s ease;
+        pointer-events: none;
+        background-color: #ffffff;
+        padding: 0 4px;
+        @media (max-width: 768px) {
+            left: 18px;
+        }
+        @media (max-width: 480px) {
+            left: 16px;
+        }
+    ">输入分类名称</label>
+                        </div>
+                    </div>
 
-    <br>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-content">
+                    <span class="card-title">选择一个分区</span>
+                    <br>
+                    <!-- 输入框部分保持不变 -->
+                </div>
+            </div>
+        </div>
 
-    <input type="text" id="titleinput" placeholder="资源标题">
+        <div class="card">
+            <div class="category-title waves-effect" data-target="filmSubMenu">
+                影视作品 Film
+                <i class="material-icons">expand_more</i>
+            </div>
+            <div id="filmSubMenu" class="sub-menu">
+                <span onclick="selectCategory('电影','Film/movies')">电影</span>
+                <span onclick="selectCategory('动漫','Film/anime')">动漫</span>
+                <span onclick="selectCategory('电视剧','Film/tvshows')">电视剧</span>
+            </div>
+        </div>
 
-    <br>
+        <div class="card">
+            <div class="category-title waves-effect" data-target="SoftwareSubMenu">
+                软件 Software
+                <i class="material-icons">expand_more</i>
+            </div>
+            <div id="SoftwareSubMenu" class="sub-menu">
+                <span onclick="selectCategory('效率','Software/office')">效率</span>
+                <span onclick="selectCategory('设计','Software/design')">设计</span>
+                <span onclick="selectCategory('开发','Software/development')">开发</span>
+                <span onclick="selectCategory('教育','Software/education')">教育</span>
+                <span onclick="selectCategory('娱乐','Software/entertainment')">娱乐</span>
+                <span onclick="selectCategory('音乐','Software/music')">音乐</span>
+                <span onclick="selectCategory('个性化','Software/personalization')">个性化</span>
+                <span onclick="selectCategory('网络','Software/network')">网络</span>
+                <span onclick="selectCategory('安全','Software/security')">安全</span>
+                <span onclick="selectCategory('游戏','Software/game')">游戏</span>
+                <span onclick="selectCategory('其他','Software/others')">其他</span>
+            </div>
+        </div>
 
-    <input type="text" id="Linkinput" placeholder="资源链接">
+        <div class="card">
+            <div class="category-title waves-effect" data-target="MusicSubMenu">
+                音乐 Music
+                <i class="material-icons">expand_more</i>
+            </div>
+            <div id="MusicSubMenu" class="sub-menu">
+                <span onclick="selectCategory('古典音乐')">古典音乐</span>
+                <span onclick="selectCategory('流行音乐')">流行音乐</span>
+                <span onclick="selectCategory('纯音乐')">纯音乐</span>
+            </div>
+        </div>
 
-    <br>
+        <div class="card">
+            <div class="category-title waves-effect" data-target="PictureSubMenu">
+                图片 Pictures
+                <i class="material-icons">expand_more</i>
+            </div>
+            <div id="PictureSubMenu" class="sub-menu">
+                <span onclick="selectCategory('抽象')">抽象</span>
+                <span onclick="selectCategory('动漫')">动漫</span>
+                <span onclick="selectCategory('汽车')">汽车</span>
+                <span onclick="selectCategory('奇幻')">奇幻</span>
+                <span onclick="selectCategory('电影')">电影</span>
+                <span onclick="selectCategory('游戏')">游戏</span>
+                <span onclick="selectCategory('摄影')">摄影</span>
+                <span onclick="selectCategory('像素')">像素</span>
+                <span onclick="selectCategory('科幻')">科幻</span>
+                <span onclick="selectCategory('体育')">体育</span>
+                <span onclick="selectCategory('壁纸')">壁纸</span>
+            </div>
+        </div>
 
-    <input type="text" id="introinput" placeholder="资源简介">
+        <div class="card">
+            <div class="category-title waves-effect" data-target="BookSubMenu">
+                书籍 Books
+                <i class="material-icons">expand_more</i>
+            </div>
+            <div id="BookSubMenu" class="sub-menu">
+                <span onclick="selectCategory('小说')">小说</span>
+                <span onclick="selectCategory('漫画')">漫画</span>
+                <span onclick="selectCategory('学术文献')">学术文献</span>
+                <span onclick="selectCategory('其他')">其他</span>
+            </div>
+        </div>
 
-    <br>
+        <div class="card">
+            <div class="category-title waves-effect" data-target="AiSubMenu">
+                AI AI-Hub
+                <i class="material-icons">expand_more</i>
+            </div>
+            <div id="AiSubMenu" class="sub-menu">
+                <span onclick="selectCategory('语言模型')">语言模型</span>
+                <span onclick="selectCategory('文生图模型')">文生图模型</span>
+                <span onclick="selectCategory('文字转语音')">文字转语音</span>
+                <span onclick="selectCategory('文字转视频')">文字转视频</span>
+                <span onclick="selectCategory('其他')">其他</span>
+            </div>
+        </div>
 
-    <input type="text" id="keywordsinput" placeholder="资源关键词">
+        <div class="card">
+            <div class="category-title waves-effect" data-target="opsysSubMenu">
+                操作系统 Operate System
+                <i class="material-icons">expand_more</i>
+            </div>
+            <div id="opsysSubMenu" class="sub-menu">
+                <span onclick="selectCategory('MacOS')">MacOS</span>
+                <span onclick="selectCategory('Windows')">Windows</span>
+                <span onclick="selectCategory('Ubuntu')">Ubuntu</span>
+                <span onclick="selectCategory('Debian')">Debian</span>
+                <span onclick="selectCategory('Linux')">Linux</span>
+                <span onclick="selectCategory('Mobile')">Mobile</span>
+            </div>
+        </div>
 
-    <br>
+        <div class="card">
+            <div class="category-title waves-effect" data-target="OtherSubMenu">
+                其他 Other
+                <i class="material-icons">expand_more</i>
+            </div>
+            <div id="OtherSubMenu" class="sub-menu">
+                <span onclick="selectCategory('其他')">其他</span>
+            </div>
+        </div>
 
-    <button id="My114514updateButton" onclick="updateGitHubFile()">提交到 Github</button>
+        <button class="btn-google waves-effect waves-light" onclick="updateGitHubFile()">
+            <i class="material-icons left">cloud_upload</i>提交到 Github
+        </button>
+        </div>
+    </main>
 
+    <footer class="page-footer">
+        <div class="footer-copyright">
+            <div class="container">
+                © 2024 Resource-Library. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
     <script>
+        var githubpath = "";
+
+        // JavaScript 代码基本保持不变
+        let selectedCategory = '';
+
+        document.addEventListener('DOMContentLoaded', function () {
+            var titles = document.querySelectorAll('.category-title');
+            titles.forEach(function (title) {
+                title.addEventListener('click', function () {
+                    var targetId = this.getAttribute('data-target');
+                    if (targetId) {
+                        var subMenu = document.getElementById(targetId);
+                        this.classList.toggle('active');
+                        if (subMenu.style.display === 'block') {
+                            subMenu.style.display = 'none';
+                            subMenu.classList.remove('animated');
+                        } else {
+                            subMenu.style.display = 'block';
+                            subMenu.classList.add('animated');
+                        }
+                    }
+                });
+            });
+        });
+
+        function selectCategory(category,submitpath) {
+            githubpath = submitpath;
+            console.log(category);
+            selectedCategory = category;
+            Swal.fire({
+                title: '已选择分类',
+                text: '你选择了 ' + category + ' 分类',
+                icon: 'success',
+                confirmButtonText: '确定',
+                confirmButtonColor: '#1a73e8'
+            });
+        }
+
+        function submitToGithub() {
+            if (!inputCategory) {
+                Swal.fire({
+                    title: '错误',
+                    text: '请输入或选择一个分类',
+                    icon: 'error',
+                    confirmButtonText: '确定',
+                    confirmButtonColor: '#1a73e8'
+                });
+                return;
+            }
+        }
+
         function customBase64Encode(str) {
             // 将字符串转换为 UTF-8 编码的 Uint8Array
             const utf8Bytes = new TextEncoder().encode(str);
@@ -298,7 +657,7 @@
                     console.log(content);
                 })
                 .catch(error => swal("提交失败 QAQ", "可能是由于提交内容非法或国际网络造成的，请检查控制台", "error"))
-                //.catch(error => console.error('Error fetching file:', error));
+            //.catch(error => console.error('Error fetching file:', error));
         });
 
         //document.getElementById('updateButton').addEventListener('click', function () {
@@ -307,187 +666,17 @@
         //});
 
         async function updateGitHubFile() {
-            const token = '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'; // 替换为你的GitHub Personal Access Token
+            const token = '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'; // 替换为你的GitHub Personal Access Token
             const repoOwner = 'Chocolateater';
             const repoName = 'Resource-Library';
-            var filePath = 'docs/Music/other.md';
             var newContent = 'Hi';
 
-            var inputtitledom = document.getElementById("titleinput");
+            var inputtitledom = document.getElementById("Titleinput");
             var inputLinkdom = document.getElementById("Linkinput");
-            var inputintrodom = document.getElementById("introinput");
-            var inputkeywordsdom = document.getElementById("keywordsinput");
+            var inputintrodom = document.getElementById("Descriptioninput");
+            var inputkeywordsdom = document.getElementById("Keywordinput");
 
-            var firstpath = "";
-            var secondpath = "";
-            var firstselect = document.getElementById("themeselect").value;
-
-            if (firstselect == "filmresources") {
-                firstpath = "Film/";
-                var secondselect = document.getElementById("filmOptions").value;
-                if (secondselect == "movieoptions") {
-                    secondpath = "movies.md";
-                }
-                else if (secondselect == "animeoptions") {
-                    secondpath = "anime.md";
-                }
-                else if (secondselect == "TVshowsoptions") {
-                    secondpath = "tvshows.md";
-                }
-            }
-            else if (firstselect == "softwareresources") {
-                firstpath = "Software/";
-                var secondselect = document.getElementById("SoftwareOptions").value;
-                if (secondselect == "officeoptions") {
-                    secondpath = "office.md";
-                }
-                else if (secondselect == "designoptions") {
-                    secondpath = "design.md";
-                }
-                else if (secondselect == "developoptions") {
-                    secondpath = "development.md";
-                }
-                else if (secondselect == "educationoptions") {
-                    secondpath = "education.md";
-                }
-                else if (secondselect == "entertainmentoptions") {
-                    secondpath = "entertainment.md";
-                }
-                else if (secondselect == "musicsoftwareoptions") {
-                    secondpath = "music.md";
-                }
-                else if (secondselect == "Personalizationoptions") {
-                    secondpath = "personalization.md";
-                }
-                else if (secondselect == "networkoptions") {
-                    secondpath = "network.md";
-                }
-                else if (secondselect == "securityoptions") {
-                    secondpath = "security.md";
-                }
-                else if (secondselect == "gameoptions") {
-                    secondpath = "game.md";
-                }
-                else if (secondselect == "othersoftwareoptions") {
-                    secondpath = "others.md";
-                }
-            }
-            else if (firstselect == "aisources") {
-                firstpath = "Ai/";
-                var secondselect = document.getElementById("aiOptions").value;
-                if (secondselect == "LLMoptions") {
-                    secondpath = "llm.md";
-                }
-                else if (secondselect == "TTPoptions") {
-                    secondpath = "gan.md";
-                }
-                else if (secondselect == "TTSoptions") {
-                    secondpath = "tts.md";
-                }
-                else if (secondselect == "TTVoptions") {
-                    secondpath = "t2v.md";
-                }
-                else if (secondselect == "Otheraioptions") {
-                    secondpath = "others.md";
-                }
-            }
-            else if (firstselect == "bookresources") {
-                firstpath = "Book/";
-                var secondselect = document.getElementById("BookOptions").value;
-                if (secondselect == "NovelsOptions") {
-                    secondpath = "novels.md";
-                }
-                else if (secondselect == "ComicsOptions") {
-                    secondpath = "comics.md";
-                }
-                else if (secondselect == "AcademicOptions") {
-                    secondpath = "academic.md";
-                }
-                else if (secondselect == "OthersubOptions") {
-                    secondpath = "others.md";
-                }
-            }
-            else if (firstselect == "musicresources") {
-                firstpath = "Music/";
-                var secondselect = document.getElementById("MusicOptions").value;
-                if (secondselect == "ClassicalOptions") {
-                    secondpath = "classical.md";
-                }
-                else if (secondselect == "PopmusicOptions") {
-                    secondpath = "pop.md";
-                }
-                else if (secondselect == "PureOptions") {
-                    secondpath = "pure.md";
-                }
-            }
-            else if (firstselect == "pictureresources") {
-                firstpath = "Picture/";
-                var secondselect = document.getElementById("PictureOptions").value;
-                if (secondselect == "ArtOptions") {
-                    secondpath = "art.md";
-                }
-                else if (secondselect == "AnimeOptions") {
-                    secondpath = "anime.md";
-                }
-                else if (secondselect == "CarsOptions") {
-                    secondpath = "cars.md";
-                }
-                else if (secondselect == "FantasyOptions") {
-                    secondpath = "fantasy.md";
-                }
-                else if (secondselect == "FilmPicturesOptions") {
-                    secondpath = "film.md";
-                }
-                else if (secondselect == "GamePicturesOptions") {
-                    secondpath = "game.md";
-                }
-                else if (secondselect == "PhotographyOptions") {
-                    secondpath = "photography.md";
-                }
-                else if (secondselect == "PixelOptions") {
-                    secondpath = "pixel.md";
-                }
-                else if (secondselect == "ScienceFictionOptions") {
-                    secondpath = "sciencefiction.md";
-                }
-                else if (secondselect == "SportsPicturesOptions") {
-                    secondpath = "sports.md";
-                }
-                else if (secondselect == "WallpapersOptions") {
-                    secondpath = "wallpapers.md";
-                }
-            }
-            else if (firstselect == "othersources") {
-                firstpath = "Other/";
-                var secondselect = document.getElementById("OtherOptions").value;
-                if (secondselect == "OthersubOptions") {
-                    secondpath = "others.md";
-                }
-            }
-            else if (firstselect == "opsysresources") {
-                firstpath = "Operate-System/";
-                var secondselect = document.getElementById("opsysOptions").value;
-                if (secondselect == "macos") {
-                    secondpath = "macos.md";
-                }
-                else if (secondselect == "windows") {
-                    secondpath = "windows.md";
-                }
-                else if (secondselect == "ubuntu") {
-                    secondpath = "ubuntu.md";
-                }
-                else if (secondselect == "debian") {
-                    secondpath = "debian.md";
-                }
-                else if (secondselect == "linux") {
-                    secondpath = "linux.md";
-                }
-                else if (secondselect == "mobile") {
-                    secondpath = "mobile.md";
-                }
-            }
-
-            filePath = 'docs/' + firstpath + secondpath;
+            var filePath = 'docs/' + githubpath + '.md';
 
             console.log(filePath);
 
@@ -535,15 +724,28 @@
             });
 
             if (updateResponse.ok) {
-                swal("提交成功!", "感谢你对本项目的贡献!", "success");
+                console.log(newContent);
                 console.log('File updated successfully!');
+                Swal.fire({
+                    title: '提交成功',
+                    text: '感谢您对本项目作出的贡献！',
+                    icon: 'success',
+                    confirmButtonText: '确定',
+                    confirmButtonColor: '#1a73e8'
+                });
             } else {
-                swal("提交失败 QAQ", "可能是由于提交内容非法或国际网络造成的，请检查控制台", "error");
+                
+                Swal.fire({
+                    title: '提交失败',
+                    text: '可能是国际网络波动',
+                    icon: 'error',
+                    confirmButtonText: '确定',
+                    confirmButtonColor: '#1a73e8'
+                });
                 console.error('Failed to update file:', updateResponse.statusText);
             }
         }
     </script>
-
 </body>
 
 </html>
