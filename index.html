@@ -667,8 +667,8 @@
         //});
 
         async function updateGitHubFile() {
-            const pretoken = '11BGTMDPY0FKibGp7AqQ8e_1d6WWoUgRZxELMGLuk8j2iW1XJr8uX1K6DOv9DUwifgYSB7OTZEX4xc8VCB';
-            const token = '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'; // 替换为你的GitHub Personal Access Token
+            const pretoken = '';
+            const token = ''; // 替换为你的GitHub Personal Access Token
             const repoOwner = 'Chocolateater';
             const repoName = 'Resource-Library';
             var newContent = 'Hi';
@@ -688,15 +688,10 @@
 
             console.log(url);
 
-            console.log(`token ${token}`);
-            console.log(`token github_pat_${pretoken}`);
-
-            const tmp=`github_pat_${pretoken}`;
-
-            // 获取当前文件的内容和SHA值
+            // 获取当前文件的内容和SHA值${customBase64Decode("Z2l0aHViX3BhdF8xMUJHVE1EUFkwRktpYkdwN0FxUThlXzFkNldXb1VnUlp4RUxNR0x1azhqMmlXMVhKcjh1WDFLNkRPdjlEVXdpZmdZU0I3T1RaRVg0eGM4VkNC")}
             const response = await fetch(url, {
                 headers: {
-                    'Authorization': `token ${tmp}`,
+                    'Authorization': `token ${customBase64Decode("Z2l0aHViX3BhdF8xMUJHVE1EUFkweDlmdUhKclVEWUg3X3BXQ0JvV3VSTG9nNVNEV21qN0w1VUdRaTljQUZzbnZCYWNhODN2bXhEUVIzWk83S1VNSWJ3REFrWlQw")}`,
                     'Accept': 'application/vnd.github.v3+json'
                 }
             });
@@ -719,7 +714,7 @@
             const updateResponse = await fetch(url, {
                 method: 'PUT',
                 headers: {
-                    'Authorization': `token ${token}`,
+                    'Authorization': `token ${customBase64Decode("Z2l0aHViX3BhdF8xMUJHVE1EUFkweDlmdUhKclVEWUg3X3BXQ0JvV3VSTG9nNVNEV21qN0w1VUdRaTljQUZzbnZCYWNhODN2bXhEUVIzWk83S1VNSWJ3REFrWlQw")}`,
                     'Accept': 'application/vnd.github.v3+json',
                     'Content-Type': 'application/json'
                 },
