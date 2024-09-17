@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>分类菜单</title>
+    <title>Resource-Lib Upload Page</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
@@ -180,7 +180,7 @@
 <body>
     <nav>
         <div class="nav-wrapper container">
-            <a href="#" class="brand-logo">分类菜单</a>
+            <a href="#" class="brand-logo">Resource Library</a>
         </div>
     </nav>
 
@@ -466,9 +466,10 @@
                 <i class="material-icons">expand_more</i>
             </div>
             <div id="MusicSubMenu" class="sub-menu">
-                <span onclick="selectCategory('古典音乐')">古典音乐</span>
-                <span onclick="selectCategory('流行音乐')">流行音乐</span>
-                <span onclick="selectCategory('纯音乐')">纯音乐</span>
+                <span onclick="selectCategory('古典音乐','Music/classical')">古典音乐</span>
+                <span onclick="selectCategory('流行音乐','Music/popmusic')">流行音乐</span>
+                <span onclick="selectCategory('纯音乐','Music/puremusic')">纯音乐</span>
+                <span onclick="selectCategory('其他','Music/other')">纯音乐</span>
             </div>
         </div>
 
@@ -478,17 +479,17 @@
                 <i class="material-icons">expand_more</i>
             </div>
             <div id="PictureSubMenu" class="sub-menu">
-                <span onclick="selectCategory('抽象')">抽象</span>
-                <span onclick="selectCategory('动漫')">动漫</span>
-                <span onclick="selectCategory('汽车')">汽车</span>
-                <span onclick="selectCategory('奇幻')">奇幻</span>
-                <span onclick="selectCategory('电影')">电影</span>
-                <span onclick="selectCategory('游戏')">游戏</span>
-                <span onclick="selectCategory('摄影')">摄影</span>
-                <span onclick="selectCategory('像素')">像素</span>
-                <span onclick="selectCategory('科幻')">科幻</span>
-                <span onclick="selectCategory('体育')">体育</span>
-                <span onclick="selectCategory('壁纸')">壁纸</span>
+                <span onclick="selectCategory('抽象','Pictures/art')">抽象</span>
+                <span onclick="selectCategory('动漫','Pictures/anime')">动漫</span>
+                <span onclick="selectCategory('汽车','Pictures/cars')">汽车</span>
+                <span onclick="selectCategory('奇幻','Pictures/fantasy')">奇幻</span>
+                <span onclick="selectCategory('电影','Pictures/film')">电影</span>
+                <span onclick="selectCategory('游戏','Pictures/game')">游戏</span>
+                <span onclick="selectCategory('摄影','Pictures/photography')">摄影</span>
+                <span onclick="selectCategory('像素','Pictures/pixel')">像素</span>
+                <span onclick="selectCategory('科幻','Pictures/science-fiction')">科幻</span>
+                <span onclick="selectCategory('体育','Pictures/sports')">体育</span>
+                <span onclick="selectCategory('壁纸','Pictures/wallpapers')">壁纸</span>
             </div>
         </div>
 
@@ -498,10 +499,10 @@
                 <i class="material-icons">expand_more</i>
             </div>
             <div id="BookSubMenu" class="sub-menu">
-                <span onclick="selectCategory('小说')">小说</span>
-                <span onclick="selectCategory('漫画')">漫画</span>
-                <span onclick="selectCategory('学术文献')">学术文献</span>
-                <span onclick="selectCategory('其他')">其他</span>
+                <span onclick="selectCategory('小说','Book/novels')">小说</span>
+                <span onclick="selectCategory('漫画','Book/comics')">漫画</span>
+                <span onclick="selectCategory('学术文献','Book/academic')">学术文献</span>
+                <span onclick="selectCategory('其他','Book/other')">其他</span>
             </div>
         </div>
 
@@ -511,11 +512,11 @@
                 <i class="material-icons">expand_more</i>
             </div>
             <div id="AiSubMenu" class="sub-menu">
-                <span onclick="selectCategory('语言模型')">语言模型</span>
-                <span onclick="selectCategory('文生图模型')">文生图模型</span>
-                <span onclick="selectCategory('文字转语音')">文字转语音</span>
-                <span onclick="selectCategory('文字转视频')">文字转视频</span>
-                <span onclick="selectCategory('其他')">其他</span>
+                <span onclick="selectCategory('语言模型','Ai/llm')">语言模型</span>
+                <span onclick="selectCategory('文生图模型','Ai/gan')">文生图模型</span>
+                <span onclick="selectCategory('文字转语音','Ai/tts')">文字转语音</span>
+                <span onclick="selectCategory('文字转视频','Ai/t2v')">文字转视频</span>
+                <span onclick="selectCategory('其他','Ai/other')">其他</span>
             </div>
         </div>
 
@@ -525,12 +526,12 @@
                 <i class="material-icons">expand_more</i>
             </div>
             <div id="opsysSubMenu" class="sub-menu">
-                <span onclick="selectCategory('MacOS')">MacOS</span>
-                <span onclick="selectCategory('Windows')">Windows</span>
-                <span onclick="selectCategory('Ubuntu')">Ubuntu</span>
-                <span onclick="selectCategory('Debian')">Debian</span>
-                <span onclick="selectCategory('Linux')">Linux</span>
-                <span onclick="selectCategory('Mobile')">Mobile</span>
+                <span onclick="selectCategory('MacOS','Operate-System/macos')">MacOS</span>
+                <span onclick="selectCategory('Windows','Operate-System/windows')">Windows</span>
+                <span onclick="selectCategory('Ubuntu','Operate-System/ubuntu')">Ubuntu</span>
+                <span onclick="selectCategory('Debian','Operate-System/debian')">Debian</span>
+                <span onclick="selectCategory('Linux','Operate-System/linux')">Linux</span>
+                <span onclick="selectCategory('Mobile','Operate-System/mobile')">Mobile</span>
             </div>
         </div>
 
@@ -540,12 +541,12 @@
                 <i class="material-icons">expand_more</i>
             </div>
             <div id="OtherSubMenu" class="sub-menu">
-                <span onclick="selectCategory('其他')">其他</span>
+                <span onclick="selectCategory('其他','Other/other')">其他</span>
             </div>
         </div>
 
         <button class="btn-google waves-effect waves-light" onclick="updateGitHubFile()">
-            <i class="material-icons left">cloud_upload</i>提交到 Github
+            <!--<i class="material-icons left">cloud_upload</i>-->提交到 Github
         </button>
         </div>
     </main>
