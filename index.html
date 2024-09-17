@@ -180,7 +180,7 @@
 <body>
     <nav>
         <div class="nav-wrapper container">
-            <a href="#" class="brand-logo">分类菜单</a>
+            <a href="#" class="brand-logo">Resource-Library</a>
         </div>
     </nav>
 
@@ -667,7 +667,8 @@
         //});
 
         async function updateGitHubFile() {
-            const token = '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'; // 替换为你的GitHub Personal Access Token
+            const pretoken = '11BGTMDPY0FKibGp7AqQ8e_1d6WWoUgRZxELMGLuk8j2iW1XJr8uX1K6DOv9DUwifgYSB7OTZEX4xc8VCB';
+            const token = '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'; // 替换为你的GitHub Personal Access Token
             const repoOwner = 'Chocolateater';
             const repoName = 'Resource-Library';
             var newContent = 'Hi';
@@ -687,10 +688,15 @@
 
             console.log(url);
 
+            console.log(`token ${token}`);
+            console.log(`token github_pat_${pretoken}`);
+
+            const tmp=`github_pat_${pretoken}`;
+
             // 获取当前文件的内容和SHA值
             const response = await fetch(url, {
                 headers: {
-                    'Authorization': `token ${token}`,
+                    'Authorization': `token ${tmp}`,
                     'Accept': 'application/vnd.github.v3+json'
                 }
             });
