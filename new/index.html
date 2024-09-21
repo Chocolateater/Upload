@@ -1,0 +1,707 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resource Library Upload</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&family=SF+Pro+Display:wght@300;400;500&display=swap"
+        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <style>
+        :root {
+            --primary-color: #007AFF;
+            --secondary-color: #5AC8FA;
+            --background-color: #F2F2F7;
+            --card-background: #FFFFFF;
+            --text-color: #000000;
+            --border-color: #E5E5EA;
+            --shadow-color: rgba(0, 0, 0, 0.1);
+        }
+
+        body {
+            font-family: 'SF Pro Display', 'Roboto', sans-serif;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            line-height: 1.5;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            color: var(--primary-color);
+            font-weight: 500;
+            margin-bottom: 30px;
+        }
+
+        .card {
+            background-color: var(--card-background);
+            border-radius: 10px;
+            box-shadow: 0 2px 10px var(--shadow-color);
+            margin-bottom: 20px;
+            overflow: hidden;
+            position: relative;
+            height: 500px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card-content {
+            flex-grow: 1;
+            overflow-y: auto;
+            padding: 16px;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+        }
+
+        .card-content::-webkit-scrollbar {
+            display: none;
+        }
+
+        .card-title {
+            font-size: 18px;
+            font-weight: 500;
+            color: var(--primary-color);
+            padding: 16px;
+            border-bottom: 1px solid var(--border-color);
+            background-color: var(--card-background);
+        }
+
+        .input-field {
+            position: relative;
+            margin-bottom: 20px;
+        }
+
+        .input-field input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+
+        .input-field input:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 2px rgba(0, 122, 255, 0.2);
+            outline: none;
+        }
+
+        .input-field label {
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            color: #999;
+            font-size: 16px;
+            pointer-events: none;
+            transition: all 0.3s ease;
+        }
+
+        .input-field input:focus+label,
+        .input-field input:not(:placeholder-shown)+label {
+            top: -8px;
+            left: 8px;
+            font-size: 12px;
+            color: var(--primary-color);
+            background-color: var(--card-background);
+            padding: 0 4px;
+        }
+
+        .nav-buttons {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px;
+            background-color: var(--card-background);
+            border-top: 1px solid var(--border-color);
+        }
+
+        .btn {
+            background-color: transparent;
+            color: var(--primary-color);
+            border: none;
+            width: 48px;
+            height: 48px;
+            font-size: 24px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+        }
+
+        .btn:hover {
+            background-color: rgba(0, 122, 255, 0.1);
+        }
+
+        .btn:disabled {
+            color: #ccc;
+            cursor: not-allowed;
+        }
+
+        .btn-icon {
+            font-size: 24px;
+        }
+
+        .step-indicator {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        .step-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background-color: var(--border-color);
+            margin: 0 5px;
+            transition: background-color 0.3s ease;
+        }
+
+        .step-dot.active {
+            background-color: var(--primary-color);
+        }
+
+        .step {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            transform: translateX(50px);
+            transition: all 0.3s ease-in-out;
+            display: flex;
+            flex-direction: column;
+            pointer-events: none;
+        }
+
+        .step.active {
+            opacity: 1;
+            transform: translateX(0);
+            pointer-events: auto;
+            z-index: 1;
+        }
+
+        .step.left {
+            transform: translateX(-50px);
+        }
+
+        .summary-item {
+            margin-bottom: 10px;
+        }
+
+        .summary-item strong {
+            font-weight: 500;
+            color: var(--primary-color);
+        }
+
+        .category-title {
+            cursor: pointer;
+            padding: 16px;
+            background-color: white;
+            color: var(--text-color);
+            margin-bottom: 0;
+            transition: background-color 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-radius: 8px;
+        }
+
+        .category-title:hover {
+            background-color: #e8f0fe;
+        }
+
+        .category-title i {
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .category-title.active i {
+            transform: rotate(180deg);
+        }
+
+        .sub-menu {
+            display: none;
+            padding: 16px;
+            background-color: #fff;
+            border-radius: 0 0 8px 8px;
+        }
+
+        .sub-menu span {
+            display: inline-block;
+            margin: 4px;
+            padding: 8px 16px;
+            cursor: pointer;
+            border-radius: 16px;
+            transition: all 0.3s;
+            font-size: 14px;
+        }
+
+        .sub-menu span:hover {
+            background-color: #e8f0fe;
+            color: var(--primary-color);
+        }
+
+        @media screen and (max-width: 600px) {
+            .container {
+                padding: 10px;
+            }
+
+            .card {
+                height: auto;
+                min-height: 400px;
+            }
+
+            .input-field {
+                margin-bottom: 15px;
+            }
+
+            .input-field input {
+                padding: 10px;
+                font-size: 14px;
+            }
+
+            .input-field label {
+                font-size: 14px;
+            }
+
+            .input-field input:focus+label,
+            .input-field input:not(:placeholder-shown)+label {
+                top: -6px;
+                left: 6px;
+                font-size: 10px;
+            }
+
+            .btn {
+                width: 40px;
+                height: 40px;
+            }
+
+            .btn-icon {
+                font-size: 20px;
+            }
+        }
+
+        @media screen and (max-width: 400px) {
+            .card-title {
+                font-size: 16px;
+                padding: 12px;
+            }
+
+            .input-field input {
+                padding: 8px;
+                font-size: 12px;
+            }
+
+            .input-field label {
+                font-size: 12px;
+            }
+
+            .input-field input:focus+label,
+            .input-field input:not(:placeholder-shown)+label {
+                top: -5px;
+                left: 5px;
+                font-size: 9px;
+            }
+
+            .btn {
+                width: 36px;
+                height: 36px;
+            }
+
+            .btn-icon {
+                font-size: 18px;
+            }
+        }
+
+        .card-content {
+            flex-grow: 1;
+            overflow-y: auto;
+            padding: 16px;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+            box-sizing: border-box;
+            /* 确保padding不会增加元素的总宽度 */
+        }
+
+        .input-field {
+            position: relative;
+            margin-bottom: 20px;
+            width: 100%;
+            /* 使用100%宽度 */
+            max-width: 100%;
+            /* 确保不会超过父元素 */
+            box-sizing: border-box;
+            /* 确保padding和border包含在宽度内 */
+        }
+
+        .input-field input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            box-sizing: border-box;
+            /* 确保padding和border包含在宽度内 */
+        }
+
+        @media screen and (max-width: 600px) {
+            .card-content {
+                padding: 12px;
+            }
+
+            .input-field input {
+                padding: 10px;
+                font-size: 14px;
+            }
+        }
+
+        @media screen and (max-width: 400px) {
+            .card-content {
+                padding: 8px;
+            }
+
+            .input-field input {
+                padding: 8px;
+                font-size: 12px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Resource Library Upload</h1>
+
+        <div class="step-indicator">
+            <div class="step-dot active"></div>
+            <div class="step-dot"></div>
+            <div class="step-dot"></div>
+        </div>
+
+        <div class="card">
+            <div class="step active" id="step1">
+                <div class="card-title">Step 1: Choose Category</div>
+                <div class="card-content">
+                    <div class="category-title" data-target="filmSubMenu">
+                        影视作品 Film
+                        <i class="material-icons-round">expand_more</i>
+                    </div>
+                    <div id="filmSubMenu" class="sub-menu">
+                        <span onclick="selectCategory('电影','Film/movies')">电影</span>
+                        <span onclick="selectCategory('动漫','Film/anime')">动漫</span>
+                        <span onclick="selectCategory('电视剧','Film/tvshows')">电视剧</span>
+                    </div>
+
+                    <div class="category-title" data-target="SoftwareSubMenu">
+                        软件 Software
+                        <i class="material-icons-round">expand_more</i>
+                    </div>
+                    <div id="SoftwareSubMenu" class="sub-menu">
+                        <span onclick="selectCategory('效率','Software/office')">效率</span>
+                        <span onclick="selectCategory('设计','Software/design')">设计</span>
+                        <span onclick="selectCategory('开发','Software/development')">开发</span>
+                    </div>
+                </div>
+                <div class="nav-buttons">
+                    <button class="btn" id="prevBtn1" disabled><i
+                            class="material-icons-round btn-icon">arrow_back</i></button>
+                    <button class="btn" id="nextBtn1" disabled><i
+                            class="material-icons-round btn-icon">arrow_forward</i></button>
+                </div>
+            </div>
+
+            <div class="step" id="step2">
+                <div class="card-title">Step 2: Enter Details</div>
+                <div class="card-content">
+                    <div class="input-field">
+                        <input type="text" id="titleInput" placeholder=" " required>
+                        <label for="titleInput">Title</label>
+                    </div>
+                    <div class="input-field">
+                        <input type="text" id="linkInput" placeholder=" " required>
+                        <label for="linkInput">Link</label>
+                    </div>
+                    <div class="input-field">
+                        <input type="text" id="descriptionInput" placeholder=" " required>
+                        <label for="descriptionInput">Description</label>
+                    </div>
+                    <div class="input-field">
+                        <input type="text" id="keywordInput" placeholder=" " required>
+                        <label for="keywordInput">Keywords (comma-separated)</label>
+                    </div>
+                </div>
+                <div class="nav-buttons">
+                    <button class="btn" id="prevBtn2"><i class="material-icons-round btn-icon">arrow_back</i></button>
+                    <button class="btn" id="nextBtn2" disabled><i
+                            class="material-icons-round btn-icon">arrow_forward</i></button>
+                </div>
+            </div>
+
+            <div class="step" id="step3">
+                <div class="card-title">Step 3: Confirm and Submit</div>
+                <div class="card-content">
+                    <div id="summaryContent"></div>
+                </div>
+                <div class="nav-buttons">
+                    <button class="btn" id="prevBtn3"><i class="material-icons-round btn-icon">arrow_back</i></button>
+                    <button class="btn" id="submitBtn"><i class="material-icons-round btn-icon">check</i></button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let selectedCategory = '';
+        let githubpath = '';
+        let currentStep = 1;
+
+        document.addEventListener('DOMContentLoaded', function () {
+            var titles = document.querySelectorAll('.category-title');
+            titles.forEach(function (title) {
+                title.addEventListener('click', function () {
+                    var targetId = this.getAttribute('data-target');
+                    if (targetId) {
+                        var subMenu = document.getElementById(targetId);
+                        this.classList.toggle('active');
+                        if (subMenu.style.display === 'block') {
+                            subMenu.style.display = 'none';
+                        } else {
+                            subMenu.style.display = 'block';
+                        }
+                    }
+                });
+            });
+
+            ['titleInput', 'linkInput', 'descriptionInput', 'keywordInput'].forEach(id => {
+                document.getElementById(id).addEventListener('input', validateStep2Inputs);
+            });
+
+            document.getElementById('nextBtn1').addEventListener('click', () => showStep(2));
+            document.getElementById('prevBtn2').addEventListener('click', () => showStep(1));
+            document.getElementById('nextBtn2').addEventListener('click', () => showStep(3));
+            document.getElementById('prevBtn3').addEventListener('click', () => showStep(2));
+            document.getElementById('submitBtn').addEventListener('click', updateGitHubFile);
+
+            updateNavButtons();
+        });
+
+        function selectCategory(category, submitpath) {
+            githubpath = submitpath;
+            selectedCategory = category;
+            document.querySelector('#step1 #nextBtn1').disabled = false;
+            Swal.fire({
+                title: '已选择分类',
+                text: '你选择了 ' + category + ' 分类',
+                icon: 'success',
+                confirmButtonText: '确定',
+                confirmButtonColor: '#007AFF'
+            });
+        }
+
+        function showStep(step) {
+            if (step < 1 || step > 3) return;
+
+            const currentStepElement = document.querySelector('.step.active');
+            const nextStepElement = document.getElementById(`step${step}`);
+            const direction = step > currentStep ? 'right' : 'left';
+
+            if (direction === 'right') {
+                currentStepElement.classList.add('left');
+                nextStepElement.style.transform = 'translateX(50px)';
+            } else {
+                nextStepElement.classList.add('left');
+                currentStepElement.style.transform = 'translateX(50px)';
+            }
+
+            setTimeout(() => {
+                currentStepElement.classList.remove('active');
+                nextStepElement.classList.remove('left');
+                nextStepElement.classList.add('active');
+
+                currentStepElement.style.transform = '';
+                nextStepElement.style.transform = '';
+
+            }, 10);
+
+            currentStep = step;
+            updateStepIndicator();
+            updateNavButtons();
+
+            if (step === 3) {
+                showSummary();
+            }
+        }
+
+        function updateStepIndicator() {
+            document.querySelectorAll('.step-dot').forEach((dot, index) => {
+                dot.classList.toggle('active', index < currentStep);
+            });
+        }
+
+        function updateNavButtons() {
+            document.getElementById('nextBtn1').disabled = !selectedCategory;
+            document.getElementById('nextBtn2').disabled = !validateStep2Inputs();
+        }
+
+        function validateStep2Inputs() {
+            const inputs = ['titleInput', 'linkInput', 'descriptionInput', 'keywordInput'];
+            return inputs.every(id => document.getElementById(id).value.trim() !== '');
+        }
+        document.getElementById('titleInput').addEventListener('input', updateNavButtons);
+        document.getElementById('linkInput').addEventListener('input', updateNavButtons);
+        document.getElementById('descriptionInput').addEventListener('input', updateNavButtons);
+        document.getElementById('keywordInput').addEventListener('input', updateNavButtons);
+        function showSummary() {
+            const summaryContent = document.getElementById('summaryContent');
+            summaryContent.innerHTML = `
+        <div class="summary-item"><strong>Category:</strong> ${selectedCategory}</div>
+        <div class="summary-item"><strong>Title:</strong> ${document.getElementById('titleInput').value}</div>
+        <div class="summary-item"><strong>Link:</strong> ${document.getElementById('linkInput').value}</div>
+        <div class="summary-item"><strong>Description:</strong> ${document.getElementById('descriptionInput').value}</div>
+        <div class="summary-item"><strong>Keywords:</strong> ${document.getElementById('keywordInput').value}</div>
+    `;
+        }
+        function customBase64Encode(str) {
+            // 将字符串转换为 UTF-8 编码的 Uint8Array
+            const utf8Bytes = new TextEncoder().encode(str);
+
+            // 使用 Base64 编码 Uint8Array
+            const base64String = btoa(String.fromCharCode.apply(null, utf8Bytes));
+
+            return base64String;
+        }
+
+        function customBase64Decode(base64Str) {
+            // 使用 atob 解码 Base64 字符串
+            const decodedStr = atob(base64Str);
+
+            // 将解码后的字符串转换为 UTF-8 编码的 Uint8Array
+            const utf8Bytes = new Uint8Array(decodedStr.length);
+            for (let i = 0; i < decodedStr.length; i++) {
+                utf8Bytes[i] = decodedStr.charCodeAt(i);
+            }
+
+            // 将 Uint8Array 转换为字符串
+            const str = new TextDecoder().decode(utf8Bytes);
+
+            return str;
+        }
+        async function updateGitHubFile() {
+            const repoOwner = 'Chocolateater';
+            const repoName = 'Resource-Library';
+            var inputtitledom = document.getElementById("titleInput");
+            var inputlinkdom = document.getElementById("linkInput");
+            var inputintrodom = document.getElementById("descriptionInput");
+            var inputkeywordsdom = document.getElementById("keywordInput");
+            var filePath = 'docs/' + githubpath + '.md'; 
+            console.log(inputtitledom);
+            console.log(inputlinkdom);
+            console.log(inputintrodom);
+            console.log(inputkeywordsdom);
+            var newContent = "<h3>" + "<a href=\"" + inputlinkdom.value + "\">" + inputtitledom.value + "</a> </h3>" + "\n" + "\n" + inputintrodom.value + "\n" + "\n" + "关键词：" + inputkeywordsdom.value + "\n" + " " + "\n";
+
+            const url = `https://api.github.com/repos/${repoOwner}/${repoName}/contents/${filePath}`;
+            function hi() { return '\x67\x69\x74\x68\x75\x62\x5f\x70\x61\x74\x5f\x31\x31\x42\x47\x54\x4d\x44\x50\x59\x30\x70\x49\x78\x56\x36\x33\x77\x36\x61\x4e\x72\x6b\x5f\x43\x48\x38\x71\x75\x56\x31\x6a\x59\x77\x45\x44\x47\x64\x73\x6c\x5a\x6d\x55\x72\x50\x66\x55\x53\x6e\x69\x32\x38\x38\x73\x5a\x6d\x41\x52\x58\x4a\x6b\x57\x6c\x33\x33\x31\x6d\x49\x47\x34\x35\x4f\x44\x44\x32\x36\x54\x4e\x62\x7a\x57\x4a\x63'; }
+            // 这里可以添加提交到 GitHub 的逻辑
+            //console.log("提交到 GitHub 的功能尚未实现");
+            const response = await fetch(url, {
+                headers: {
+                    'Authorization': `token ${hi()}`,
+                    'Accept': 'application/vnd.github.v3+json'
+                }
+            });
+
+            if (!response.ok) {
+                swal("提交失败 QAQ", "可能是国际网络波动造成的", "error");
+                console.error('Failed to fetch current file:', response.statusText);
+                return;
+            }
+
+            const fileData = await response.json();
+            const currentContent = customBase64Decode(fileData.content); // 解码Base64内容
+            const currentSha = fileData.sha;
+            console.log(newContent);
+            // 更新文件内容
+            const updatedContent = customBase64Encode(currentContent + newContent); // 将新内容编码为Base64
+
+            console.log(customBase64Encode(currentContent));
+
+            const updateResponse = await fetch(url, {
+                method: 'PUT',
+                headers: {
+                    'Authorization': `token ${hi()}`,
+                    'Accept': 'application/vnd.github.v3+json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    message: 'Update index.md via GitHub API',
+                    content: updatedContent,
+                    sha: currentSha
+                })
+            });
+
+            if (updateResponse.ok) {
+                console.log(newContent);
+                console.log('File updated successfully!');
+                Swal.fire({
+                    title: '提交成功',
+                    text: '资源已成功上传到资源库',
+                    icon: 'success',
+                    confirmButtonText: '确定',
+                    confirmButtonColor: '#007AFF'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        // 重置表单或返回第一步
+                        resetForm();
+                        showStep(1);
+                    }
+                });;
+            } else {
+                Swal.fire({
+                    title: '提交失败',
+                    text: '可能是国际网络波动',
+                    icon: 'error',
+                    confirmButtonText: '确定',
+                    confirmButtonColor: '#1a73e8'
+                });
+                console.error('Failed to update file:', updateResponse.statusText);
+            }
+            /*Swal.fire({
+                title: '提交成功',
+                text: '资源已成功上传到资源库',
+                icon: 'success',
+                confirmButtonText: '确定',
+                confirmButtonColor: '#007AFF'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // 重置表单或返回第一步
+                    resetForm();
+                    showStep(1);
+                }
+            });*/
+        }
+
+        function resetForm() {
+            selectedCategory = '';
+            githubpath = '';
+            currentStep = 1;
+            document.querySelectorAll('input').forEach(input => input.value = '');
+            document.querySelectorAll('.sub-menu').forEach(menu => menu.style.display = 'none');
+            document.querySelectorAll('.category-title').forEach(title => title.classList.remove('active'));
+            updateNavButtons();
+            updateStepIndicator();
+        }
+    </script>
+</body>
+
+</html>
